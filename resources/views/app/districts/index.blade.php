@@ -3,7 +3,7 @@
 @section('title', 'District')
 
 @section('buttonAdd')
-    <button class="btn btn-sm btn-outline-primary button-action-add-main">Добавить</button>
+    <button class="btn btn-sm btn-outline-primary button-action-add-main" href="{{ route('districts.create') }}">Добавить</button>
 @endsection
 
 @section('content')
