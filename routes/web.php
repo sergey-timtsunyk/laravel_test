@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::resource('districts', 'DistrictsController');
 
 Route::get('/population/sum', 'DistrictsController@getSum')->name('districts.getSumPopulation');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

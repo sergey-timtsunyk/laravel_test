@@ -13,12 +13,17 @@ use Validator;
 
 class DistrictsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:user');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('app.districts.index', ['districts' => District::all()]);
     }
