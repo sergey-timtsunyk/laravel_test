@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\District;
+use App\Events\UpdatePopulationInDistrictEvent;
 use App\Rules\FirstLetterUppercase;
+use App\Sum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Event;
 use Validator;
 
 class DistrictsController extends Controller
@@ -40,7 +43,7 @@ class DistrictsController extends Controller
     public function store(Request $request)
     {
         /** @var \Illuminate\Validation\Validator $validator */
-        $validator = $this->validate($request, $this->getRulse());
+        $validator = Validator::make($request->all(), $this->getRulse());
 
         if ($validator->fails()) {
             return redirect(route('districts.create'))
@@ -57,6 +60,8 @@ class DistrictsController extends Controller
         $district->population = $data['population'];
         $district->description = $data['description'];
         $district->save();
+
+        event(new UpdatePopulationInDistrictEvent($district->id));
 
         return redirect(route('districts.index'));
     }
@@ -111,6 +116,8 @@ class DistrictsController extends Controller
         $district->description = $data['description'];
         $district->save();
 
+        event(new UpdatePopulationInDistrictEvent($id));
+
         return redirect(route('districts.index'));
     }
 
@@ -124,7 +131,20 @@ class DistrictsController extends Controller
     {
         District::destroy($id);
 
+        event(new UpdatePopulationInDistrictEvent($id));
+
         return new Response();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSum()
+    {
+        /** @var Sum $sum */
+        $sum = Sum::query()->findOrFail(1);
+
+        return $sum->getSum();
     }
 
     /**

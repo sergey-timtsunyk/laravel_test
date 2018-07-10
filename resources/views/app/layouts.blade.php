@@ -35,6 +35,8 @@
                 </li>
             </ul>
 
+            <input class="mr-sm-1" href="{{ route('districts.getSumPopulation') }}" id="sum-population" disabled="disabled" value="Population:"/>
+
             @yield('buttonAdd')
 
             <form class="form-inline my-2 my-lg-0">

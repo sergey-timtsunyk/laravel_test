@@ -28,4 +28,27 @@ $(document).ready(function () {
     $('.button-action-add-main').click(function () {
         window.location.href = $(this).attr('href');
     });
+
+
+
+    const href = $('#sum-population').attr('href');
+    $.get({
+        url: href,
+        success: function (data) {
+            console.log(data);
+            $('#sum-population').val("Population: "+data);
+        }
+    });
+
+    setInterval(function() {
+        const href = $('#sum-population').attr('href');
+        $.get({
+            url: href,
+            success: function (data) {
+                console.log(data);
+                $('#sum-population').val("Population: "+data);
+            }
+        });
+    }, 10000);
+
 });
